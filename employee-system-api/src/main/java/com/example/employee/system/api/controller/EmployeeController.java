@@ -5,6 +5,8 @@ import com.example.employee.system.api.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -15,5 +17,10 @@ public class EmployeeController {
     @PostMapping("/employee")
     public Employee addEmployee(@RequestBody Employee employee){
         return employeeService.addEmployee(employee);
+    }
+
+    @GetMapping("/employee")
+    public List<Employee> getAllEmployees(){
+        return employeeService.getAllEmployees();
     }
 }
