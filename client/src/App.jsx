@@ -1,8 +1,13 @@
+import AddEmployee from "./components/AddEmployee"
+import NavBar from "./components/NavBar"
 
 
 const App = () => {
   return (
-    <div className="bg-indigo-500">App</div>
+    <>
+    <NavBar/>
+    <AddEmployee/>
+    </>
   )
 }
 
