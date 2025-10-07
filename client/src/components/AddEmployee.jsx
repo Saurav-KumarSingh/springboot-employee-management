@@ -1,17 +1,21 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddEmployee = () => {
+  const navigate=useNavigate();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    emailId: "",
+    name: "",
+    email: "",
+    phone: "",
+    department: "",
   });
 
   const fields = [
-    { name: "firstName", label: "First Name", type: "text", placeholder: "Enter first name" },
-    { name: "lastName", label: "Last Name", type: "text", placeholder: "Enter last name" },
-    { name: "emailId", label: "Email", type: "email", placeholder: "Enter email" },
+    { name: "name", label: "Full Name", type: "text", placeholder: "Enter full name" },
+    { name: "email", label: "Email", type: "email", placeholder: "Enter email" },
+    { name: "phone", label: "Phone", type: "text", placeholder: "Enter phone number" },
+    { name: "department", label: "Department", type: "text", placeholder: "Enter department" },
   ];
 
   const handleChange = (e) => {
@@ -23,22 +27,21 @@ const AddEmployee = () => {
     e.preventDefault();
 
     try {
-      // Save data to backend
       const res = await axios.post(
-        "http://localhost:8080/api/v1/employee",
+        "http://localhost:8080/api/employee",
         formData
       );
-
       console.log("Employee saved successfully:", res.data);
 
-      // Clear form after successful submission
       setFormData({
-        firstName: "",
-        lastName: "",
-        emailId: "",
+        name: "",
+        email: "",
+        phone: "",
+        department: "",
       });
 
       alert("Employee saved successfully!");
+      navigate("/");
     } catch (error) {
       console.error(
         error.response?.data?.message || "Failed to save employee. Please try again."
@@ -51,9 +54,10 @@ const AddEmployee = () => {
 
   const handleClear = () => {
     setFormData({
-      firstName: "",
-      lastName: "",
-      emailId: "",
+      name: "",
+      email: "",
+      phone: "",
+      department: "",
     });
   };
 
@@ -76,18 +80,17 @@ const AddEmployee = () => {
           </div>
         ))}
 
-        {/* Buttons */}
         <div className="flex gap-4">
           <button
             type="submit"
-            className="cursor-pointer flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+            className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
           >
             Save
           </button>
           <button
             type="button"
             onClick={handleClear}
-            className="cursor-pointer flex-1 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400 transition duration-200"
+            className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400 transition duration-200"
           >
             Clear
           </button>
