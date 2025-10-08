@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,4 +36,20 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee Not Found! with ID: " + id));
 
     }
+
+    public Employee updateEmployeeById(Long id, Employee employee) {
+        return employeeRepository.findById(id)
+                .map(existingEmployee -> {
+                    // Only update fields if they are not null
+                    if (employee.getName() != null) existingEmployee.setName(employee.getName());
+                    if (employee.getEmail() != null) existingEmployee.setEmail(employee.getEmail());
+                    if (employee.getPhone() != null) existingEmployee.setPhone(employee.getPhone());
+                    if (employee.getDepartment() != null) existingEmployee.setDepartment(employee.getDepartment());
+
+                    return employeeRepository.save(existingEmployee);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
+    }
+
+
 }

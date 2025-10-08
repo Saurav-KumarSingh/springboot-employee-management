@@ -27,6 +27,8 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
+
+
     @DeleteMapping("/employee/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         try {
@@ -37,6 +39,7 @@ public class EmployeeController {
         }
     }
 
+
     @GetMapping("/employee/{id}")
     public ResponseEntity<?> getEmployeeById(@PathVariable Long id) {
         try {
@@ -46,6 +49,17 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<?> updateEmployeeById(@PathVariable Long id, @RequestBody Employee employee) {
+        try {
+            Employee updatedEmployee = employeeService.updateEmployeeById(id, employee);
+            return ResponseEntity.ok(updatedEmployee); // return saved object
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 
 
 
